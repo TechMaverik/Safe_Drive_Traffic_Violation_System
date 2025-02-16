@@ -42,8 +42,8 @@
     <div class="col-sm-3 sidenav">
       <img src="{{url_for('static', filename='images/SafeDrive_AI.png')}}" alt="JAC Accounts"  class="img-thumbnail"/>
       <ul class="nav nav-pills nav-stacked">
-        {% for key in dashboard %}
-        <li><h3><a href="{{dashboard[key]}}">{{key}}</a></h3></li>
+        {% for key in menu %}
+        <li><h3><a href="{{menu[key]}}">{{key}}</a></h3></li>
         {% endfor %}
       </ul><br>      
     </div>

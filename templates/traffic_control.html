@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>SafeDrive AI</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+    .row.content {height: 1500px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+      width:25%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height: auto;} 
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-3 sidenav">
+      <img src="{{url_for('static', filename='images/SafeDrive_AI.png')}}" alt="JAC Accounts"  class="img-thumbnail"/>
+      <ul class="nav nav-pills nav-stacked">
+        {% for key in menu %}
+        <li><h3><a href="{{menu[key]}}">{{key}}</a></h3></li>
+        {% endfor %}
+      </ul><br>      
+    </div>
+    <div class="col-sm-9">
+      <h4><small>TRAFFIC LIGHT CONTROL SYSTEM</small></h4>
+      <hr>
+      <br>
+        <form action="/test" method="post">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Camera 1</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Image Path">
+                <small id="emailHelp" class="form-text text-muted">Enter the path of the image from camera 1</small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Camera 2</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Image Path">
+                <small id="emailHelp" class="form-text text-muted">Enter the path of the image from camera 2.</small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Camera 3</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Image Path">
+                <small id="emailHelp" class="form-text text-muted">Enter the path of the image from camera 3.</small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Camera 4</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Image Path">
+                <small id="emailHelp" class="form-text text-muted">Enter the path of the image from camera 4.</small>
+            </div>           
+           
+            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="clear" class="btn btn-danger">Clear</button>
+        </form>
+      
+    </div>
+      <br><br>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
