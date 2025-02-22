@@ -1,18 +1,24 @@
 dashboard_menus = {
     "Notifications ": "/",
-    "Red Signal Crossing": "admin/violation/vehicles/redsignalcrossing",
-    "Improper Lane Changes": "admin/violation/vehicles/lanechanges",
-    "Vehicle in Zebra Crossing": "admin/violation/vehicles/zebracrossing",
-    "Heavy Vehicles in School Time": "admin/violation/vehicles/heavy/schooltime",
-    "No Parking Violation": "admin/violation/vehicles/noparking",
-    "Pedestrian Crossing Violation": "admin/violation/pedestrian/crossing",
-    "Peak Hours": "admin/traffic/peakhours",
-    "Traffic Control": "admin/traffic/control",    
-    "Charge Violations": "/admin/violation/charged",
-    "Violations Charged": "/user/violation/violations/charged",
-    "Payments": "/user/violation/violations/charged/payments",
-    "Profile": "/user/profile",
+    "Live Traffic View": "/admin/live",
+    "Red Signal Crossing": "/admin/violation/vehicles/redsignalcrossing",
+    "Vehicle in Zebra Crossing": "/admin/violation/vehicles/zebracrossing",
+    "Heavy Vehicles in School Time": "/admin/violation/vehicles/heavy/schooltime",
+    "No Parking Violation": "/admin/violation/vehicles/noparking",
+    "Pedestrian Crossing Violation": "/admin/violation/pedestrian/crossing",
+    "Peak Hours": "/admin/traffic/peakhours",
+    "Traffic Control": "/admin/traffic/control",
+    "Violations Charged": "/admin/violation/charged",
 }
+
+violations = [
+    "Red Signal Crossing",
+    "Improper Lane Changes",
+    "Vehicles in Zebra Crossing",
+    "Heavy Vehicles in School Time",
+    "No Parking Violation",
+    "Pedestrian Crossing Violation",
+]
 
 gender = ["-", "Male", "Female"]
 yes_no = ["-", "Yes", "No"]

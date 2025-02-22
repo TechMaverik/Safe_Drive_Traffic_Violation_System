@@ -1,6 +1,7 @@
-# TechVidvan Vehicle-Tracker
-
 import math
+import cv2
+import os
+
 
 class EuclideanDistTracker:
     def __init__(self):
@@ -9,7 +10,6 @@ class EuclideanDistTracker:
         # Keep the count of the IDs
         # each time a new object id detected, the count will increase by one
         self.id_count = 0
-
 
     def update(self, objects_rect):
         # Objects boxes and ids
@@ -51,6 +51,80 @@ class EuclideanDistTracker:
         return objects_bbs_ids
 
 
+class ViolationTracker:
 
-def ad(a, b):
-    return a+b
+    def file_name_extractor(self, filepath):
+        file_name = os.path.basename(filepath)
+        return file_name
+
+    def red_signal_crossing(self, center, img, image_path):
+        x, y = center
+        if y > 112:
+            cv2.line(img, (672, 703), (1377, 691), (0, 0, 255), 9)
+            cv2.circle(img, center, 2, (255, 0, 0), 10)
+            cv2.putText(
+                img,
+                "Red Signal Violator",
+                (x, y - 10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.5,
+                (0, 0, 255),
+                1,
+            )
+            filename = self.file_name_extractor(image_path)
+            cv2.imwrite("static/violations/red_signal/" + filename, img)
+
+    def truck_in_schooltime(self, img, image_path):
+        filename = self.file_name_extractor(image_path)
+        cv2.imwrite("static/violations/truck_school_time/" + filename, img)
+
+    def no_parking(self, center, img, image_path):
+        x, y = center
+        if (-432 * x + 202 * y < -364332) and (-222 * x + 183 * y > -180327):
+            cv2.line(img, (1065, 474), (1267, 906), (0, 0, 255), 9)
+            cv2.circle(img, center, 2, (0, 0, 255), 10)
+            cv2.putText(
+                img,
+                "NO PARKING Violator",
+                (x, y - 10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.5,
+                (0, 0, 255),
+                1,
+            )
+            filename = self.file_name_extractor(image_path)
+            cv2.imwrite("static/violations/no_parking/" + filename, img)
+
+    def vehicle_zebra_crossing(self, center, img, image_path):
+        x, y = center
+        if (-432 * x + 202 * y < -364332) and (-222 * x + 183 * y > -180327):
+            cv2.line(img, (1065, 474), (1267, 906), (0, 0, 255), 9)
+            cv2.circle(img, center, 2, (0, 0, 255), 10)
+            cv2.putText(
+                img,
+                "ZEBRA CROSSING Violator",
+                (x, y - 10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.5,
+                (0, 0, 255),
+                1,
+            )
+            filename = self.file_name_extractor(image_path)
+            cv2.imwrite("static/violations/no_parking/" + filename, img)
+
+    def pedestrian_crossing(self, center, img, image_path):
+        x, y = center
+        if (-432 * x + 202 * y < -364332) and (-222 * x + 183 * y > -180327):
+            cv2.line(img, (1065, 474), (1267, 906), (0, 0, 255), 9)
+            cv2.circle(img, center, 2, (0, 0, 255), 10)
+            cv2.putText(
+                img,
+                "PEDESTRIAN Violator",
+                (x, y - 10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.5,
+                (0, 0, 255),
+                1,
+            )
+            filename = self.file_name_extractor(image_path)
+            cv2.imwrite("static/violations/no_parking/" + filename, img)

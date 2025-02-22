@@ -5,6 +5,7 @@ from Engine.VisionLogic.tracker import *
 
 # Initialize Tracker
 tracker = EuclideanDistTracker()
+violation_tracker = ViolationTracker()
 
 # Initialize the videocapture object
 input_size = 320
@@ -61,20 +62,34 @@ def find_center(x, y, w, h):
 
 
 # Function for count vehicle
-def count_vehicle(box_id, img):
+def count_vehicle(box_id, img, image_path, functionality):
 
     x, y, w, h, id, index = box_id
-
     # Find the center of the rectangle for detection
+    # print(index)
     center = find_center(x, y, w, h)
-    ix, iy = center
+    # print(center)
+
     # Draw circle in the middle of the rectangle
-    cv2.circle(img, center, 2, (0, 0, 255), -1)  # end here
+    if functionality == "RED_SIGNAL_CROSSING":
+        violation_tracker.red_signal_crossing(center, img, image_path)
+    elif functionality == "HEAVY_VEHICLES_SCHOOL_TIME":
+        violation_tracker.truck_in_schooltime(img, image_path)
+    elif functionality == "NO_PARKING":
+        violation_tracker.no_parking(center, img, image_path)
+    elif functionality == "ZEBRA_CROSSING_VEHICLE":
+        violation_tracker.vehicle_zebra_crossing(center, img, image_path)
+    elif functionality == "PEDESTRIAN_VIOLATION":
+        violation_tracker.pedestrian_crossing(center, img, image_path)
+    else:
+        cv2.circle(img, center, 2, (0, 0, 255), -1)
+
+    # end here
     # print(up_list, down_list)
 
 
 # Function for finding the detected objects from the network output
-def postProcess(outputs, img):
+def postProcess(outputs, img, image_path, functionality):
     global detected_classNames
     height, width = img.shape[:2]
     boxes = []
@@ -123,11 +138,11 @@ def postProcess(outputs, img):
     # Update the tracker for each object
     boxes_ids = tracker.update(detection)
     for box_id in boxes_ids:
-        count_vehicle(box_id, img)
+        count_vehicle(box_id, img, image_path, functionality)
 
 
-def from_static_image(image):
-    img = cv2.imread(image)
+def process_image(image_path, functionality):
+    img = cv2.imread(image_path)
     blob = cv2.dnn.blobFromImage(
         img, 1 / 255, (input_size, input_size), [0, 0, 0], 1, crop=False
     )
@@ -140,15 +155,15 @@ def from_static_image(image):
     outputs = net.forward(outputNames)
 
     # Find the objects from the network output
-    postProcess(outputs, img)
+    postProcess(outputs, img, image_path, functionality)
 
     # count the frequency of detected classes
     frequency = collections.Counter(detected_classNames)
     # print(frequency)
 
-    return dict(frequency)
     # Draw counting texts in the frame
 
-    # cv2.imshow(junction, img)
+    cv2.imshow("Tiger", img)
 
-    # cv2.waitKey(0)
+    cv2.waitKey(0)
+    return dict(frequency)
