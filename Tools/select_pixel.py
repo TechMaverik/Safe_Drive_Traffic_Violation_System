@@ -14,9 +14,7 @@ def click_event(event, x, y, flags, param):
 
 
 # Load the image
-img = cv2.imread(
-    "static/case_studies/2.png", 1
-)  # Replace 'image.jpg' with your image file
+img = cv2.imread("", 1)  # Replace 'image.jpg' with your image file
 
 # Check if the image was loaded successfully
 if img is None:

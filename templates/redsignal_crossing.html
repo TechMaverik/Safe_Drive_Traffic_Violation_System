@@ -35,6 +35,21 @@
       .row.content {height: auto;} 
     }
   </style>
+  <script>
+    function displayImage() {
+    const imageInput = document.getElementById('imageInput');
+    const imageDisplay = document.getElementById('imageDisplay');
+
+    if (imageInput.files && imageInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            imageDisplay.src = e.target.result;
+        };
+        reader.readAsDataURL(imageInput.files[0]);
+    }
+}
+
+  </script>
 </head>
 <body>
 
@@ -46,6 +61,7 @@
         {% for key in menu %}
         <li><h3><a href="{{menu[key]}}">{{key}}</a></h3></li>
         {% endfor %}
+       
       </ul><br>      
     </div>
     <div class="col-sm-9">
@@ -53,9 +69,18 @@
       <hr>
       <br>
 
-      
+      <form action="/red_signal_violation_processing" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label>Camera</label>
+          <input type="file" class="form-control" name="image" placeholder="Select the Image Path">
+        </div>       
+        <button type="Submit" class="btn btn-primary">Upload and Process Image</button>
+      </form>
         
-
+      <br>
+        {% if image_file%}
+        <img src="{{ url_for('static', filename=image_file) }}" />
+        {% endif %}
       
     </div>
       <br><br>

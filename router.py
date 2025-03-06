@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from menu_configurations import menus
+from handlers import Handlers
 from service import Services
 
 
@@ -91,5 +92,51 @@ def charged_violation():
     )
 
 
+@app.route("/red_signal_violation_processing", methods=["post"])
+def red_signal_violation_processing():
+    image_path, filename = Handlers().handle_image_uploads()
+    print(filename + "---->")
+    status = Services().track_violation(image_path, "RED_SIGNAL_CROSSING")
+    return render_template(
+        "redsignal_crossing.html",
+        menu=menus.dashboard_menus,
+        image_file=filename,
+    )
+
+
+@app.route("/traffic_control", methods=["post"])
+def traffic_control():
+    (
+        image_path_1,
+        image_path_2,
+        image_path_3,
+        image_path_4,
+    ) = Handlers().handle_multiple_image_uploads()
+    junction1_data = Services().get_vehicle_count_details(image_path_1, None)
+    junction2_data = Services().get_vehicle_count_details(image_path_2, None)
+    junction3_data = Services().get_vehicle_count_details(image_path_3, None)
+    junction4_data = Services().get_vehicle_count_details(image_path_4, None)
+    (
+        junction1_vehicle_count,
+        junction2_vehicle_count,
+        junction3_vehicle_count,
+        junction4_vehicle_count,
+    ) = Services().get_vehicle_count(
+        junction1_data,
+        junction2_data,
+        junction3_data,
+        junction4_data,
+    )
+
+    return render_template(
+        "traffic_control.html",
+        menu=menus.dashboard_menus,
+        junction1_data=junction1_data,
+        junction2_data=junction2_data,
+        junction3_data=junction3_data,
+        junction4_data=junction4_data,
+    )
+
+
 if __name__ == "__main__":
-    app.run("192.168.1.5", 5000, debug=True)
+    app.run("localhost", 5000, debug=True)

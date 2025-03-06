@@ -163,7 +163,7 @@ def process_image(image_path, functionality):
 
     # Draw counting texts in the frame
 
-    cv2.imshow("Tiger", img)
+    # cv2.imshow("Processed Image", img)
 
-    cv2.waitKey(0)
+    # cv2.waitKey(0)
     return dict(frequency)

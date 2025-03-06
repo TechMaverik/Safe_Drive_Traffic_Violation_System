@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Light Grid - Medium Circular Indicators</title>
+    <style>
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 50px;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .panel {
+            display: flex;
+            gap: 10px;
+        }
+
+        .content-box {
+            border: 2px solid black;
+            height: 200px;
+            flex-grow: 1;
+            background-color: #f5f5f5;
+        }
+
+        .indicator-panel {
+            border: 2px solid black;
+            width: 50px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 5px;
+            background-color: #333;
+        }
+
+        .indicator {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: background-color 0.5s;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .green {
+            background-color: #004400;
+        }
+
+        .panel:nth-child(1) .green {
+            animation: green1 16s infinite;
+        }
+
+        .panel:nth-child(2) .green {
+            animation: green2 16s infinite;
+        }
+
+        .panel:nth-child(3) .green {
+            animation: green3 16s infinite;
+        }
+
+        .panel:nth-child(4) .green {
+            animation: green4 16s infinite;
+        }
+
+        @keyframes green1 {
+            0%, 23% { background-color: #00ff00; }
+            25%, 98% { background-color: #004400; }
+            100% { background-color: #00ff00; }
+        }
+
+        @keyframes green2 {
+            0%, 23% { background-color: #004400; }
+            25%, 48% { background-color: #00ff00; }
+            50%, 98% { background-color: #004400; }
+            100% { background-color: #004400; }
+        }
+
+        @keyframes green3 {
+            0%, 48% { background-color: #004400; }
+            50%, 73% { background-color: #00ff00; }
+            75%, 98% { background-color: #004400; }
+            100% { background-color: #004400; }
+        }
+
+        @keyframes green4 {
+            0%, 73% { background-color: #004400; }
+            75%, 98% { background-color: #00ff00; }
+            100% { background-color: #004400; }
+        }
+
+        .panel:nth-child(1) .red {
+            animation: red1 16s infinite;
+        }
+
+        .panel:nth-child(2) .red {
+            animation: red2 16s infinite;
+        }
+
+        .panel:nth-child(3) .red {
+            animation: red3 16s infinite;
+        }
+
+        .panel:nth-child(4) .red {
+            animation: red4 16s infinite;
+        }
+
+        @keyframes red1 {
+            0%, 23% { background-color: #111; }
+            25%, 98% { background-color: red; }
+            100% { background-color: #111; }
+        }
+
+        @keyframes red2 {
+            0%, 23% { background-color: red; }
+            25%, 48% { background-color: #111; }
+            50%, 98% { background-color: red; }
+            100% { background-color: red; }
+        }
+
+        @keyframes red3 {
+            0%, 48% { background-color: red; }
+            50%, 73% { background-color: #111; }
+            75%, 98% { background-color: red; }
+            100% { background-color: red; }
+        }
+
+        @keyframes red4 {
+            0%, 73% { background-color: red; }
+            75%, 98% { background-color: #111; }
+            100% { background-color: red; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <div class="content-box"></div>
+            <div class="indicator-panel">
+                <div class="indicator red"></div>
+                <div class="indicator green"></div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="content-box"></div>
+            <div class="indicator-panel">
+                <div class="indicator red"></div>
+                <div class="indicator green"></div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="content-box"></div>
+            <div class="indicator-panel">
+                <div class="indicator red"></div>
+                <div class="indicator green"></div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="content-box"></div>
+            <div class="indicator-panel">
+                <div class="indicator red"></div>
+                <div class="indicator green"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

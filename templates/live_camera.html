@@ -52,11 +52,23 @@
       <h4><small>Live Camera Traffic View</small></h4>
       <hr>
       <br>
- 
-        <video  controls height="800" width="1200">
-            <source src="http://192.168.1.9:8080/video" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+        <table>
+          <tr>
+            <td>
+              <video  autoplay  muted height="500" width="500" >
+                <source src={{ url_for('static', filename="Traffic.mp4") }} type="video/mp4" >
+              </video>
+
+            </td>
+            <td>
+              <video autoplay  muted height="500" width="500">
+                <source src={{ url_for('static', filename="Traffic.mp4") }} type="video/mp4" >
+              </video>
+              
+            </td>
+          </tr>
+        </table>
+       
         
 
       

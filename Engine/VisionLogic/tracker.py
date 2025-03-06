@@ -59,7 +59,7 @@ class ViolationTracker:
 
     def red_signal_crossing(self, center, img, image_path):
         x, y = center
-        if y > 112:
+        if y > 560:
             cv2.line(img, (672, 703), (1377, 691), (0, 0, 255), 9)
             cv2.circle(img, center, 2, (255, 0, 0), 10)
             cv2.putText(
@@ -72,11 +72,11 @@ class ViolationTracker:
                 1,
             )
             filename = self.file_name_extractor(image_path)
-            cv2.imwrite("static/violations/red_signal/" + filename, img)
+            cv2.imwrite("static/" + filename, img)
 
     def truck_in_schooltime(self, img, image_path):
         filename = self.file_name_extractor(image_path)
-        cv2.imwrite("static/violations/truck_school_time/" + filename, img)
+        cv2.imwrite("static/" + filename, img)
 
     def no_parking(self, center, img, image_path):
         x, y = center
@@ -93,11 +93,11 @@ class ViolationTracker:
                 1,
             )
             filename = self.file_name_extractor(image_path)
-            cv2.imwrite("static/violations/no_parking/" + filename, img)
+            cv2.imwrite("static/" + filename, img)
 
     def vehicle_zebra_crossing(self, center, img, image_path):
         x, y = center
-        if (-432 * x + 202 * y < -364332) and (-222 * x + 183 * y > -180327):
+        if (y > 538) and (y < 600):
             cv2.line(img, (1065, 474), (1267, 906), (0, 0, 255), 9)
             cv2.circle(img, center, 2, (0, 0, 255), 10)
             cv2.putText(
@@ -110,7 +110,7 @@ class ViolationTracker:
                 1,
             )
             filename = self.file_name_extractor(image_path)
-            cv2.imwrite("static/violations/no_parking/" + filename, img)
+            cv2.imwrite("static/" + filename, img)
 
     def pedestrian_crossing(self, center, img, image_path):
         x, y = center
@@ -127,4 +127,4 @@ class ViolationTracker:
                 1,
             )
             filename = self.file_name_extractor(image_path)
-            cv2.imwrite("static/violations/no_parking/" + filename, img)
+            cv2.imwrite("static/" + filename, img)

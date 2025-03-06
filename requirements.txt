@@ -2,4 +2,3 @@ flask
 opencv-python
 opencv-contrib-python
 pillow
-pydantic

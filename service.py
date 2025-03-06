@@ -67,6 +67,101 @@ class Services:
         logic.process_image(image_path, functionality)
         return True
 
+    def get_vehicle_count(
+        self,
+        junction1_data,
+        junction2_data,
+        junction3_data,
+        junction4_data,
+    ):
+
+        try:
+            cars = junction1_data["car"]
+        except:
+            cars = 0
+        try:
+            motorbike = junction1_data["motorbike"]
+        except:
+            motorbike = 0
+        try:
+            bus = junction1_data["bus"]
+        except:
+            bus = 0
+        try:
+            truck = junction1_data["truck"]
+        except:
+            truck = 0
+        junction1_vehicle_count = cars + motorbike + bus + truck
+
+        try:
+            cars = junction2_data["car"]
+        except:
+            cars = 0
+        try:
+            motorbike = junction2_data["motorbike"]
+        except:
+            motorbike = 0
+        try:
+            bus = junction2_data["bus"]
+        except:
+            bus = 0
+        try:
+            truck = junction2_data["truck"]
+        except:
+            truck = 0
+        junction2_vehicle_count = cars + motorbike + bus + truck
+
+        try:
+            cars = junction3_data["car"]
+        except:
+            cars = 0
+        try:
+            motorbike = junction3_data["motorbike"]
+        except:
+            motorbike = 0
+        try:
+            bus = junction3_data["bus"]
+        except:
+            bus = 0
+        try:
+            truck = junction3_data["truck"]
+        except:
+            truck = 0
+        junction3_vehicle_count = cars + motorbike + bus + truck
+
+        try:
+            cars = junction4_data["car"]
+        except:
+            cars = 0
+        try:
+            motorbike = junction4_data["motorbike"]
+        except:
+            motorbike = 0
+        try:
+            bus = junction4_data["bus"]
+        except:
+            bus = 0
+        try:
+            truck = junction4_data["truck"]
+        except:
+            truck = 0
+        junction4_vehicle_count = cars + motorbike + bus + truck
+
+        return (
+            junction1_vehicle_count,
+            junction2_vehicle_count,
+            junction3_vehicle_count,
+            junction4_vehicle_count,
+        )
+
+    def control_traffic_light(
+        junction1_vehicle_count,
+        junction2_vehicle_count,
+        junction3_vehicle_count,
+        junction4_vehicle_count,
+    ):
+        pass
+
 
 # Services().track_violation("static/case_studies/2.png", "RED_SIGNAL_CROSSING")
 # Services().track_violation("static/case_studies/4.jpeg", "NO_PARKING")
