@@ -158,7 +158,9 @@ def process_image(image_path, functionality):
     postProcess(outputs, img, image_path, functionality)
 
     # count the frequency of detected classes
+
     frequency = collections.Counter(detected_classNames)
+    detected_classNames.clear()
     # print(frequency)
 
     # Draw counting texts in the frame

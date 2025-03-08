@@ -141,17 +141,6 @@ def traffic_control():
     junction2_data = Services().get_vehicle_count_details(image_path_2, None)
     junction3_data = Services().get_vehicle_count_details(image_path_3, None)
     junction4_data = Services().get_vehicle_count_details(image_path_4, None)
-    (
-        junction1_vehicle_count,
-        junction2_vehicle_count,
-        junction3_vehicle_count,
-        junction4_vehicle_count,
-    ) = Services().get_vehicle_count(
-        junction1_data,
-        junction2_data,
-        junction3_data,
-        junction4_data,
-    )
 
     return render_template(
         "traffic_control.html",
