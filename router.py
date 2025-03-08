@@ -10,10 +10,21 @@ app = Flask(__name__)
 
 @app.route("/", methods=["get"])
 def welcome():
+    (
+        zebra_crossing_violation,
+        no_parking_violation,
+        red_signal_violation,
+        heavy_vehicle_violation,
+    ) = Services().get_violations_count()
     return render_template(
         "dashboard.html",
         menu=menus.dashboard_menus,
         violations_list=menus.violations,
+        zebra_crossing_violation=zebra_crossing_violation,
+        no_parking_violation=no_parking_violation,
+        red_signal_violation=red_signal_violation,
+        heavy_vehicle_violation=heavy_vehicle_violation,
+        datetime=datetime.datetime.now(),
     )
 
 
@@ -79,18 +90,27 @@ def pedestrian_crossing_violation():
 
 @app.route("/admin/traffic/density", methods=["get"])
 def traffic_density():
+    zebra_crossing_violation, no_parking_violation, red_signal_violation = (
+        Services().get_violations_count()
+    )
     return render_template(
         "traffic_density.html",
         menu=menus.dashboard_menus,
         status=False,
+        zebra_crossing_violation=zebra_crossing_violation,
+        no_parking_violation=no_parking_violation,
+        red_signal_violation=red_signal_violation,
     )
 
 
 @app.route("/admin/violation/charged", methods=["get"])
 def charged_violation():
+    rows = Services().get_violations(None)
+
     return render_template(
         "charged_violations.html",
         menu=menus.dashboard_menus,
+        rows=rows,
     )
 
 
@@ -128,7 +148,7 @@ def red_signal_violation_processing():
 @app.route("/vehicles_in_zebra_crossing_violation_processing", methods=["post"])
 def vehicles_in_zebra_crossing_violation_processing():
     image_path, filename = Handlers().handle_image_uploads()
-    print(filename + "---->")
+
     status = Services().track_violation(image_path, "ZEBRA_CROSSING_VEHICLE")
     return render_template(
         "zebra_crossing.html",
@@ -140,7 +160,7 @@ def vehicles_in_zebra_crossing_violation_processing():
 @app.route("/no_parking_violation_processing", methods=["post"])
 def no_parking_processing():
     image_path, filename = Handlers().handle_image_uploads()
-    print(filename + "---->")
+
     status = Services().track_violation(image_path, "NO_PARKING")
     return render_template(
         "noparking.html",
@@ -152,9 +172,9 @@ def no_parking_processing():
 @app.route("/heavy_vehicles_violation", methods=["post"])
 def heavy_vehicles_violation_processing():
     image_path, filename = Handlers().handle_image_uploads()
-    print(filename + "---->")
+
     status = Services().track_truck_in_school_hrs(
-        image_path, "HEAVY_VEHICLES_SCHOOL_TIME"
+        image_path, "HEAVY_VEHICLES_VIOLATION"
     )
     return render_template(
         "trucks_schooltime.html",

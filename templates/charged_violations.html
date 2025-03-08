@@ -54,7 +54,31 @@
       <br>
  
        
-        
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Category</th>
+            <th scope="col">Image</th>
+            <th scope="col">Time Stamp</th>
+            <th scope="col">Validated</th>
+            <th scope="col">Assigned To</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in rows %}
+          <tr>            
+            <td>{{row[0]}}</td>
+            <td>{{row[1]}}</td>
+            <td>{{row[2]}}</td>
+            <td>{{row[3]}}</td>
+            <td>{{row[4]}}</td>
+            <td>{{row[5]}}</td>
+          </tr>
+          {%endfor%}
+          
+        </tbody>
+      </table>
 
       
     </div>

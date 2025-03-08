@@ -12,11 +12,9 @@ dashboard_menus = {
 
 violations = [
     "Red Signal Crossing",
-    "Improper Lane Changes",
     "Vehicles in Zebra Crossing",
     "Heavy Vehicles in School Time",
     "No Parking Violation",
-    "Pedestrian Crossing Violation",
 ]
 
 gender = ["-", "Male", "Female"]

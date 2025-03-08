@@ -2,6 +2,7 @@ import os
 import cv2
 from datetime import datetime
 from Engine.VisionLogic import logic
+from mapper import Mappers
 
 
 class Services:
@@ -123,6 +124,7 @@ class Services:
             and self.time < self.today_5pm
             and truck_count > 0
         ):
+            Mappers().add_violations("HEAVY_VEHICLES_VIOLATION", image_path)
             logic.process_image(image_path, functionality)
             return vehicle_type_count["truck"]
         else:
@@ -139,6 +141,7 @@ class Services:
             bool: _description_
         """
         logic.process_image(image_path, functionality)
+        Mappers().add_violations(functionality, image_path)
         return True
 
     def get_vehicle_count(
@@ -235,3 +238,24 @@ class Services:
         junction4_vehicle_count,
     ):
         pass
+
+    def get_violations(self, filter):
+        rows = Mappers().get_all_violations(filter)
+        return rows
+
+    def get_violations_count(self):
+        rows = Mappers().get_all_violations("ZEBRA_CROSSING_VEHICLE")
+        zebra_crossing_violation = len(rows)
+        rows = Mappers().get_all_violations("NO_PARKING")
+        no_parking_violation = len(rows)
+        rows = Mappers().get_all_violations("RED_SIGNAL_CROSSING")
+        red_signal_violation = len(rows)
+        rows = Mappers().get_all_violations("HEAVY_VEHICLES_VIOLATION")
+        heavy_vehicle_violation = len(rows)
+        print(heavy_vehicle_violation, "----->")
+        return (
+            zebra_crossing_violation,
+            no_parking_violation,
+            red_signal_violation,
+            heavy_vehicle_violation,
+        )

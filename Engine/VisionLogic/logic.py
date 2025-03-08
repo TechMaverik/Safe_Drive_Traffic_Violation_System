@@ -73,7 +73,7 @@ def count_vehicle(box_id, img, image_path, functionality):
     # Draw circle in the middle of the rectangle
     if functionality == "RED_SIGNAL_CROSSING":
         violation_tracker.red_signal_crossing(center, img, image_path)
-    elif functionality == "HEAVY_VEHICLES_SCHOOL_TIME":
+    elif functionality == "HEAVY_VEHICLES_VIOLATION":
         violation_tracker.truck_in_schooltime(img, image_path)
     elif functionality == "NO_PARKING":
         violation_tracker.no_parking(center, img, image_path)

@@ -60,21 +60,36 @@
       <th scope="col">Traffic Violation</th>
       <th scope="col">Count</th>
       <th scope="col">Date</th>
-      <th scope="col">Location</th>
+      
     </tr>
   </thead>
  
   <tbody>
     
-    {% for violation in violations_list%}   
     <tr>
-      <th scope="row">{{loop.index}}</th>
-      <td>{{violation}}</td>
-      <td></td>
-      <td></td>
-      <td>Perurkada</td>
+      <td>1</td>
+      <td>Red Signal Crossing Violation</td>
+      <td>{{red_signal_violation}}</td>
+      <td>{{datetime}}</td>
     </tr>
-    {% endfor %}   
+    <tr>
+      <td>2</td>
+      <td>Vehicles in Zebra Crossing Violation</td>
+      <td>{{zebra_crossing_violation}}</td>
+      <td>{{datetime}}</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Heavy Vehicles in School Time Violation</td>
+      <td>{{heavy_vehicle_violation}}</td>
+      <td>{{datetime}}</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>No Parking Violation</td>
+      <td>{{no_parking_violation}}</td>
+      <td>{{datetime}}</td>
+    </tr>
   </tbody>
 </table>
  
