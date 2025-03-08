@@ -52,9 +52,39 @@
       <h4><small>Traffic Density</small></h4>
       <hr>
       <br>
- 
-       
-        
+      <form action="/traffic_density" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label>Camera</label>
+          <input type="file" class="form-control" name="image" placeholder="Select the Image Path">
+        </div>       
+        <button type="Submit" class="btn btn-primary">Upload and Process Image</button>
+      </form>
+      <br>
+     
+      {%if status == 1%}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Time Stamp</th>
+            <th scope="col">Car</th>
+            <th scope="col">Motor Bike</th>
+            <th scope="col">Bus</th>
+            <th scope="col">Truck</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{datetime}}</th>
+            <td> {{vehicle_segregated_count['car']}}</td>
+            <td> {{vehicle_segregated_count['motorbike']}}</td>
+            <td> {{vehicle_segregated_count['bus']}}</td>
+            <td> {{vehicle_segregated_count['truck']}}</td>
+          </tr>
+          
+        </tbody>
+      </table>
+      {%endif%}
+              
 
       
     </div>

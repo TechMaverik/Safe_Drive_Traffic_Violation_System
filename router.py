@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from menu_configurations import menus
 from handlers import Handlers
 from service import Services
+import datetime
 
 
 app = Flask(__name__)
@@ -81,6 +82,7 @@ def traffic_density():
     return render_template(
         "traffic_density.html",
         menu=menus.dashboard_menus,
+        status=False,
     )
 
 
@@ -123,13 +125,25 @@ def red_signal_violation_processing():
     )
 
 
-@app.route("/vehicles_in_zebra_crossing", methods=["post"])
+@app.route("/vehicles_in_zebra_crossing_violation_processing", methods=["post"])
 def vehicles_in_zebra_crossing_violation_processing():
     image_path, filename = Handlers().handle_image_uploads()
     print(filename + "---->")
     status = Services().track_violation(image_path, "ZEBRA_CROSSING_VEHICLE")
     return render_template(
         "zebra_crossing.html",
+        menu=menus.dashboard_menus,
+        image_file=filename,
+    )
+
+
+@app.route("/no_parking_violation_processing", methods=["post"])
+def no_parking_processing():
+    image_path, filename = Handlers().handle_image_uploads()
+    print(filename + "---->")
+    status = Services().track_violation(image_path, "NO_PARKING")
+    return render_template(
+        "noparking.html",
         menu=menus.dashboard_menus,
         image_file=filename,
     )
@@ -146,6 +160,36 @@ def heavy_vehicles_violation_processing():
         "trucks_schooltime.html",
         menu=menus.dashboard_menus,
         image_file=filename,
+    )
+
+
+@app.route("/traffic_density", methods=["post"])
+def traffic_density_process():
+    image_path, filename = Handlers().handle_image_uploads()
+    vehicle_segregated_count = Services().get_vehicle_count_details(image_path, None)
+    try:
+        vehicle_segregated_count["truck"]
+    except:
+        vehicle_segregated_count["truck"] = 0
+    try:
+        vehicle_segregated_count["car"]
+    except:
+        vehicle_segregated_count["car"] = 0
+    try:
+        vehicle_segregated_count["motorbike"]
+    except:
+        vehicle_segregated_count["motorbike"] = 0
+    try:
+        vehicle_segregated_count["bus"]
+    except:
+        vehicle_segregated_count["bus"] = 0
+    return render_template(
+        "traffic_density.html",
+        menu=menus.dashboard_menus,
+        image_file=filename,
+        vehicle_segregated_count=vehicle_segregated_count,
+        datetime=datetime.datetime.now(),
+        status=True,
     )
 
 

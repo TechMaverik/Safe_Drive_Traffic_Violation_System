@@ -80,9 +80,10 @@ class ViolationTracker:
 
     def no_parking(self, center, img, image_path):
         x, y = center
-        if (-432 * x + 202 * y < -364332) and (-222 * x + 183 * y > -180327):
-            cv2.line(img, (1065, 474), (1267, 906), (0, 0, 255), 9)
-            cv2.circle(img, center, 2, (0, 0, 255), 10)
+        if (-412 * x + 156 * y < -57932) and (-139 * x + 100 * y > -15632):
+            cv2.line(img, (241, 259), (385, 646), (0, 0, 255), 1)
+            cv2.line(img, (288, 244), (388, 383), (0, 0, 255), 1)
+            cv2.circle(img, center, 2, (0, 0, 255), 1)
             cv2.putText(
                 img,
                 "NO PARKING Violator",
