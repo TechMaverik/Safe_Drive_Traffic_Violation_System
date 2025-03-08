@@ -5,7 +5,7 @@ dashboard_menus = {
     "Vehicle in Zebra Crossing": "/admin/violation/vehicles/zebracrossing",
     "Heavy Vehicles in School Time": "/admin/violation/vehicles/heavy/schooltime",
     "No Parking Violation": "/admin/violation/vehicles/noparking",
-    "Peak Hours": "/admin/traffic/peakhours",
+    "Traffic Density": "/admin/traffic/density",
     "Traffic Control": "/admin/traffic/control",
     "Violations Charged": "/admin/violation/charged",
 }

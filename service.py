@@ -34,7 +34,7 @@ class Services:
             if not success:
                 break
 
-            filename = os.path.join(str(output_folder), f"frame_{count}.jpg")
+            filename = os.path.join(str(output_folder), f"traffic_1_{count}.jpg")
             cv2.imwrite(filename, frame)
 
             count += 1
@@ -64,7 +64,7 @@ class Services:
             if not success:
                 break
 
-            filename = os.path.join(str(output_folder), f"frame_{count}.jpg")
+            filename = os.path.join(str(output_folder), f"traffic_2_{count}.jpg")
             cv2.imwrite(filename, frame)
 
             count += 1

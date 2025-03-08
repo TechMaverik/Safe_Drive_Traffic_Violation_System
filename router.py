@@ -76,10 +76,10 @@ def pedestrian_crossing_violation():
     )
 
 
-@app.route("/admin/traffic/peakhours", methods=["get"])
-def peak_hours():
+@app.route("/admin/traffic/density", methods=["get"])
+def traffic_density():
     return render_template(
-        "peak.html.html",
+        "traffic_density.html",
         menu=menus.dashboard_menus,
     )
 
