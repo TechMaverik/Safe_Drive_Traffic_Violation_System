@@ -1,5 +1,5 @@
 import os
-import base64
+import cv2
 from datetime import datetime
 from Engine.VisionLogic import logic
 
@@ -9,8 +9,8 @@ class Services:
     def __init__(self):
 
         self.time = datetime.now()
-        self.today_8am = datetime(2025, 2, 22, 8, 0)
-        self.today_10am = datetime(2025, 2, 22, 10, 50)
+        self.today_8am = datetime(2025, 3, 1, 8, 0)
+        self.today_5pm = datetime(2026, 3, 22, 15, 50)
 
     def extract_file_list(self, path):
         fullpath_list = []
@@ -19,6 +19,10 @@ class Services:
             file = path + "/" + file
             fullpath_list.append(file)
         return fullpath_list
+
+    def file_name_extractor(self, filepath):
+        file_name = os.path.basename(filepath)
+        return file_name
 
     def get_vehicle_count_details(self, image_path: str, functionality: str) -> dict:
         """_summary_
@@ -34,6 +38,14 @@ class Services:
         vehicle_type_count = logic.process_image(image_path, functionality)
         return vehicle_type_count
 
+    def get_truck_count(self, map):
+        try:
+            count = map["truck"]
+        except:
+            count = 0
+        print(count)
+        return count
+
     def track_truck_in_school_hrs(self, image_path: str, functionality: str) -> int:
         """_summary_
 
@@ -44,15 +56,17 @@ class Services:
         Returns:
             int: _description_
         """
-        vehicle_type_count = logic.process_image(image_path, functionality)
+        vehicle_type_count = logic.process_image(image_path, None)
+        truck_count = self.get_truck_count(vehicle_type_count)
         if (
             self.time > self.today_8am
-            and self.time < self.today_10am
-            and vehicle_type_count["truck"] > 0
+            and self.time < self.today_5pm
+            and truck_count > 0
         ):
+            logic.process_image(image_path, functionality)
             return vehicle_type_count["truck"]
         else:
-            return 0
+            return False
 
     def track_violation(self, image_path: str, functionality: str) -> bool:
         """_summary_

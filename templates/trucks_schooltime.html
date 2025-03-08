@@ -52,8 +52,20 @@
       <h4><small>Heavy Vehicles in School Time Violation</small></h4>
       <hr>
       <br>
- 
+      
+      <form action="/heavy_vehicles_violation" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label>Camera</label>
+          <input type="file" class="form-control" name="image" placeholder="Select the Image Path">
+        </div>       
+        <button type="Submit" class="btn btn-primary">Upload and Process Image</button>
+      </form>
        
+      <br>
+      {% if image_file%}
+        <img src="{{ url_for('static', filename=image_file) }}" alt="No Violation Detected" />
+      {% endif %}
+
         
 
       

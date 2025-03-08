@@ -115,6 +115,20 @@ def vehicles_in_zebra_crossing_violation_processing():
     )
 
 
+@app.route("/heavy_vehicles_violation", methods=["post"])
+def heavy_vehicles_violation_processing():
+    image_path, filename = Handlers().handle_image_uploads()
+    print(filename + "---->")
+    status = Services().track_truck_in_school_hrs(
+        image_path, "HEAVY_VEHICLES_SCHOOL_TIME"
+    )
+    return render_template(
+        "trucks_schooltime.html",
+        menu=menus.dashboard_menus,
+        image_file=filename,
+    )
+
+
 @app.route("/traffic_control", methods=["post"])
 def traffic_control():
     (
