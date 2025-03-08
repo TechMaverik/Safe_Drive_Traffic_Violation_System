@@ -60,7 +60,7 @@ class ViolationTracker:
     def red_signal_crossing(self, center, img, image_path):
         x, y = center
         if y > 560:
-            cv2.line(img, (672, 703), (1377, 691), (0, 0, 255), 9)
+            cv2.line(img, (83, 560), (383, 560), (0, 0, 255), 1)
             cv2.circle(img, center, 2, (255, 0, 0), 10)
             cv2.putText(
                 img,
