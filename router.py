@@ -92,6 +92,16 @@ def charged_violation():
     )
 
 
+@app.route("/extract_images", methods=["get"])
+def extract_images():
+    status = Services().video_to_images()
+    return render_template(
+        "live_camera.html",
+        menu=menus.dashboard_menus,
+        status=status,
+    )
+
+
 @app.route("/red_signal_violation_processing", methods=["post"])
 def red_signal_violation_processing():
     image_path, filename = Handlers().handle_image_uploads()
@@ -142,13 +152,25 @@ def traffic_control():
     junction3_data = Services().get_vehicle_count_details(image_path_3, None)
     junction4_data = Services().get_vehicle_count_details(image_path_4, None)
 
+    (
+        junction1_vehicle_count,
+        junction2_vehicle_count,
+        junction3_vehicle_count,
+        junction4_vehicle_count,
+    ) = Services().get_vehicle_count(
+        junction1_data,
+        junction2_data,
+        junction3_data,
+        junction4_data,
+    )
+
     return render_template(
         "traffic_control.html",
         menu=menus.dashboard_menus,
-        junction1_data=junction1_data,
-        junction2_data=junction2_data,
-        junction3_data=junction3_data,
-        junction4_data=junction4_data,
+        junction1_data=junction1_vehicle_count,
+        junction2_data=junction2_vehicle_count,
+        junction3_data=junction3_vehicle_count,
+        junction4_data=junction4_vehicle_count,
     )
 
 

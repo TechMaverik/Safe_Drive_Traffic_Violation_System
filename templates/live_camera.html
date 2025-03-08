@@ -52,6 +52,12 @@
       <h4><small>Live Camera Traffic View</small></h4>
       <hr>
       <br>
+      {%if status == 1%}
+        <div class="alert alert-success" role="alert">
+          Extracted images from the camera
+        </div>
+      {%endif%}
+      <br>
         <table>
           <tr>
             <td>
@@ -69,17 +75,18 @@
           </tr>
           <tr>
             <td align="center">
-              <form action="" method="post">
-                <button type="button" class="btn btn-success">Extract Camera1 Image Data</button>
+              <form action="/extract_images" method="get">
+                <button type="submit" class="btn btn-success">Extract Camera1 Image Data</button>
               </form>             
             </td>
             <td align="center">
-              <form action="" method="post">
-                <button type="button" class="btn btn-success">Extract Camera2 Image Data</button>
+              <form action="/extract_images" method="get">
+                <button type="submit" class="btn btn-success">Extract Camera2 Image Data</button>
               </form>
             </td>
           </tr>
         </table>
+        
        
         
 

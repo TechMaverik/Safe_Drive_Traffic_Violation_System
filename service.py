@@ -12,6 +12,36 @@ class Services:
         self.today_8am = datetime(2025, 3, 1, 8, 0)
         self.today_5pm = datetime(2026, 3, 22, 15, 50)
 
+    def video_to_images(self):
+
+        video_path = "static\Traffic.mp4"
+        output_folder = "ExtractedImageDataset"
+        if not os.path.exists(str(output_folder)):
+            os.makedirs(str(output_folder))
+
+        vidcap = cv2.VideoCapture(str(video_path))
+
+        if not vidcap.isOpened():
+            print("Error opening video file.")
+            return
+
+        count = 0
+
+        while True:
+
+            success, frame = vidcap.read()
+
+            if not success:
+                break
+
+            filename = os.path.join(str(output_folder), f"frame_{count}.jpg")
+            cv2.imwrite(filename, frame)
+
+            count += 1
+
+        vidcap.release()
+        return True
+
     def extract_file_list(self, path):
         fullpath_list = []
         dir_list = os.listdir(path)
@@ -175,13 +205,3 @@ class Services:
         junction4_vehicle_count,
     ):
         pass
-
-
-# Services().track_violation("static/case_studies/2.png", "RED_SIGNAL_CROSSING")
-# Services().track_violation("static/case_studies/4.jpeg", "NO_PARKING")
-# Services().track_truck_in_school_hrs(
-#     "static/case_studies/4.jpeg", "HEAVY_VEHICLES_SCHOOL_TIME"
-# )
-# data = Services().get_vehicle_count_details("static/case_studies/4.jpeg", None)
-# print(data)
-# Services().track_violation("static/case_studies/Tvm/ped_1.jpeg", "RED_SIGNAL_CROSSING")
