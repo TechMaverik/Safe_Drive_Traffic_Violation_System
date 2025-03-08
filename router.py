@@ -95,10 +95,21 @@ def charged_violation():
 @app.route("/red_signal_violation_processing", methods=["post"])
 def red_signal_violation_processing():
     image_path, filename = Handlers().handle_image_uploads()
-    print(filename + "---->")
     status = Services().track_violation(image_path, "RED_SIGNAL_CROSSING")
     return render_template(
         "redsignal_crossing.html",
+        menu=menus.dashboard_menus,
+        image_file=filename,
+    )
+
+
+@app.route("/vehicles_in_zebra_crossing", methods=["post"])
+def vehicles_in_zebra_crossing_violation_processing():
+    image_path, filename = Handlers().handle_image_uploads()
+    print(filename + "---->")
+    status = Services().track_violation(image_path, "ZEBRA_CROSSING_VEHICLE")
+    return render_template(
+        "zebra_crossing.html",
         menu=menus.dashboard_menus,
         image_file=filename,
     )

@@ -53,8 +53,18 @@
       <hr>
       <br>
  
-       
+       <form action="/vehicles_in_zebra_crossing" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label>Camera</label>
+          <input type="file" class="form-control" name="image" placeholder="Select the Image Path">
+        </div>       
+        <button type="Submit" class="btn btn-primary">Upload and Process Image</button>
+      </form>
         
+      <br>
+      {% if image_file%}
+        <img src="{{ url_for('static', filename=image_file) }}" alt="No Violation Detected" />
+      {% endif %}
 
       
     </div>

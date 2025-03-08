@@ -97,8 +97,9 @@ class ViolationTracker:
 
     def vehicle_zebra_crossing(self, center, img, image_path):
         x, y = center
-        if (y > 538) and (y < 600):
-            cv2.line(img, (1065, 474), (1267, 906), (0, 0, 255), 9)
+        if (y > 628) and (y < 668):
+            cv2.line(img, (0, 628), (472, 628), (255, 0, 0), 4)
+            cv2.line(img, (0, 668), (472, 668), (255, 0, 0), 4)
             cv2.circle(img, center, 2, (0, 0, 255), 10)
             cv2.putText(
                 img,
