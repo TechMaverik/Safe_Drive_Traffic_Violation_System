@@ -92,9 +92,19 @@ def charged_violation():
     )
 
 
-@app.route("/extract_images", methods=["get"])
-def extract_images():
-    status = Services().video_to_images()
+@app.route("/extract_images1", methods=["get"])
+def extract_images_camera1():
+    status = Services().video_to_images_traffic1()
+    return render_template(
+        "live_camera.html",
+        menu=menus.dashboard_menus,
+        status=status,
+    )
+
+
+@app.route("/extract_images2", methods=["get"])
+def extract_images_camera2():
+    status = Services().video_to_images_traffic2()
     return render_template(
         "live_camera.html",
         menu=menus.dashboard_menus,

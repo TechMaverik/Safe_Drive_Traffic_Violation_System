@@ -12,10 +12,40 @@ class Services:
         self.today_8am = datetime(2025, 3, 1, 8, 0)
         self.today_5pm = datetime(2026, 3, 22, 15, 50)
 
-    def video_to_images(self):
+    def video_to_images_traffic1(self):
 
         video_path = "static\Traffic.mp4"
         output_folder = "ExtractedImageDataset"
+        if not os.path.exists(str(output_folder)):
+            os.makedirs(str(output_folder))
+
+        vidcap = cv2.VideoCapture(str(video_path))
+
+        if not vidcap.isOpened():
+            print("Error opening video file.")
+            return
+
+        count = 0
+
+        while True:
+
+            success, frame = vidcap.read()
+
+            if not success:
+                break
+
+            filename = os.path.join(str(output_folder), f"frame_{count}.jpg")
+            cv2.imwrite(filename, frame)
+
+            count += 1
+
+        vidcap.release()
+        return True
+
+    def video_to_images_traffic2(self):
+
+        video_path = "static\Traffic2.mp4"
+        output_folder = "ExtractedImageDataset2"
         if not os.path.exists(str(output_folder)):
             os.makedirs(str(output_folder))
 
