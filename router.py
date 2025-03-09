@@ -241,14 +241,95 @@ def traffic_control():
         junction3_data,
         junction4_data,
     )
+    traffic_control_data = Services().control_traffic_light(
+        junction1_vehicle_count,
+        junction2_vehicle_count,
+        junction3_vehicle_count,
+        junction4_vehicle_count,
+    )
+
+    vehicle_segregated_count1 = Services().get_vehicle_count_details(image_path_1, None)
+    try:
+        vehicle_segregated_count1["truck"]
+    except:
+        vehicle_segregated_count1["truck"] = 0
+    try:
+        vehicle_segregated_count1["car"]
+    except:
+        vehicle_segregated_count1["car"] = 0
+    try:
+        vehicle_segregated_count1["motorbike"]
+    except:
+        vehicle_segregated_count1["motorbike"] = 0
+    try:
+        vehicle_segregated_count1["bus"]
+    except:
+        vehicle_segregated_count1["bus"] = 0
+
+    vehicle_segregated_count2 = Services().get_vehicle_count_details(image_path_2, None)
+    try:
+        vehicle_segregated_count2["truck"]
+    except:
+        vehicle_segregated_count2["truck"] = 0
+    try:
+        vehicle_segregated_count2["car"]
+    except:
+        vehicle_segregated_count2["car"] = 0
+    try:
+        vehicle_segregated_count2["motorbike"]
+    except:
+        vehicle_segregated_count2["motorbike"] = 0
+    try:
+        vehicle_segregated_count2["bus"]
+    except:
+        vehicle_segregated_count2["bus"] = 0
+
+    vehicle_segregated_count3 = Services().get_vehicle_count_details(image_path_1, None)
+    try:
+        vehicle_segregated_count3["truck"]
+    except:
+        vehicle_segregated_count3["truck"] = 0
+    try:
+        vehicle_segregated_count3["car"]
+    except:
+        vehicle_segregated_count3["car"] = 0
+    try:
+        vehicle_segregated_count3["motorbike"]
+    except:
+        vehicle_segregated_count3["motorbike"] = 0
+    try:
+        vehicle_segregated_count3["bus"]
+    except:
+        vehicle_segregated_count3["bus"] = 0
+
+    vehicle_segregated_count4 = Services().get_vehicle_count_details(image_path_1, None)
+    try:
+        vehicle_segregated_count4["truck"]
+    except:
+        vehicle_segregated_count4["truck"] = 0
+    try:
+        vehicle_segregated_count4["car"]
+    except:
+        vehicle_segregated_count4["car"] = 0
+    try:
+        vehicle_segregated_count4["motorbike"]
+    except:
+        vehicle_segregated_count4["motorbike"] = 0
+    try:
+        vehicle_segregated_count4["bus"]
+    except:
+        vehicle_segregated_count4["bus"] = 0
 
     return render_template(
         "traffic_control.html",
         menu=menus.dashboard_menus,
-        junction1_data=junction1_vehicle_count,
-        junction2_data=junction2_vehicle_count,
-        junction3_data=junction3_vehicle_count,
-        junction4_data=junction4_vehicle_count,
+        traffic_control_data=traffic_control_data,
+        vehicle_segregated_count1=vehicle_segregated_count1,
+        vehicle_segregated_count2=vehicle_segregated_count2,
+        vehicle_segregated_count3=vehicle_segregated_count3,
+        vehicle_segregated_count4=vehicle_segregated_count4,
+        status=True,
+        datetime=datetime.datetime.now(),
     )
 
 
@@ -268,6 +349,16 @@ def view_violation_image():
 def redirect_approval():
     return render_template(
         "validate_violations.html",
+        menu=menus.dashboard_menus,
+    )
+
+
+@app.route("/validate_violations", methods=["post"])
+def validate_violations():
+    id = Handlers().handle_violation_id()
+    Services().validate_violations(id)
+    return render_template(
+        "charged_violations.html",
         menu=menus.dashboard_menus,
     )
 

@@ -39,3 +39,13 @@ class Mappers:
             cursor.execute(query)
             rows = cursor.fetchall()
         return rows
+
+    def validate_violations(self, id):
+        with sqlite3.connect("traffic_violation.db") as connection:
+            cursor = connection.cursor()
+            update_query = (
+                """UPDATE violations SET validated = ?, assigned_to = ? WHERE id = ?"""
+            )
+            values = ("Yes", "MVD", id)
+            cursor.execute(update_query, values)
+            connection.commit()

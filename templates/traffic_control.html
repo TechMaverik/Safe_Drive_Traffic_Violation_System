@@ -7,166 +7,43 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <style>
-    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-    .row.content {height: 1500px}
-    
-    /* Set gray background color and 100% height */
-    .sidenav {
-      background-color: #f1f1f1;
-      height: 100%;
-      width:25%;
-    }
-    
-    /* Set black background color, white text and some padding */
-    footer {
-      background-color: #555;
-      color: white;
-      padding: 15px;
-    }
-    
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
-      }
-      .row.content {height: auto;} 
-    }
-
-            .container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 50px;
-            padding: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .panel {
-            display: flex;
-            gap: 10px;
-        }
-
-        .content-box {
-            border: 2px solid black;
-            height: 200px;
-            flex-grow: 1;
-            background-color: #f5f5f5;
-        }
-
-        .indicator-panel {
-            border: 2px solid black;
-            width: 50px;
-            height: 200px;
+  
+      <style>
+        .traffic-light {
+            width: 100px;
+            height: 300px;
+            background-color: #ccc;
+            border-radius: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            padding: 20px 5px;
-            background-color: #333;
+            justify-content: space-around;
+            margin: auto;
         }
-
-        .indicator {
-            width: 40px;
-            height: 40px;
+        
+        .light {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            transition: background-color 0.5s;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
         }
-
+        
         .red {
             background-color: red;
         }
-
+        
+        .yellow {
+            background-color: yellow;
+        }
+        
         .green {
-            background-color: #004400;
+            background-color: green;
         }
+        
+        .off {
+            background-color: grey;
+        }
+    </style>
 
-        .panel:nth-child(1) .green {
-            animation: green1 16s infinite;
-        }
-
-        .panel:nth-child(2) .green {
-            animation: green2 16s infinite;
-        }
-
-        .panel:nth-child(3) .green {
-            animation: green3 16s infinite;
-        }
-
-        .panel:nth-child(4) .green {
-            animation: green4 16s infinite;
-        }
-
-        @keyframes green1 {
-            0%, 23% { background-color: #00ff00; }
-            25%, 98% { background-color: #004400; }
-            100% { background-color: #00ff00; }
-        }
-
-        @keyframes green2 {
-            0%, 23% { background-color: #004400; }
-            25%, 48% { background-color: #00ff00; }
-            50%, 98% { background-color: #004400; }
-            100% { background-color: #004400; }
-        }
-
-        @keyframes green3 {
-            0%, 48% { background-color: #004400; }
-            50%, 73% { background-color: #00ff00; }
-            75%, 98% { background-color: #004400; }
-            100% { background-color: #004400; }
-        }
-
-        @keyframes green4 {
-            0%, 73% { background-color: #004400; }
-            75%, 98% { background-color: #00ff00; }
-            100% { background-color: #004400; }
-        }
-
-        .panel:nth-child(1) .red {
-            animation: red1 16s infinite;
-        }
-
-        .panel:nth-child(2) .red {
-            animation: red2 16s infinite;
-        }
-
-        .panel:nth-child(3) .red {
-            animation: red3 16s infinite;
-        }
-
-        .panel:nth-child(4) .red {
-            animation: red4 16s infinite;
-        }
-
-        @keyframes red1 {
-            0%, 23% { background-color: #111; }
-            25%, 98% { background-color: red; }
-            100% { background-color: #111; }
-        }
-
-        @keyframes red2 {
-            0%, 23% { background-color: red; }
-            25%, 48% { background-color: #111; }
-            50%, 98% { background-color: red; }
-            100% { background-color: red; }
-        }
-
-        @keyframes red3 {
-            0%, 48% { background-color: red; }
-            50%, 73% { background-color: #111; }
-            75%, 98% { background-color: red; }
-            100% { background-color: red; }
-        }
-
-        @keyframes red4 {
-            0%, 73% { background-color: red; }
-            75%, 98% { background-color: #111; }
-            100% { background-color: red; }
-        }
-  </style>
 </head>
 <body>
 
@@ -206,45 +83,250 @@
       </form>
       <br>
 
-       Junction1:{{junction1_data}}
-       Junction2:{{junction2_data}}
-       Junction3:{{junction3_data}}
-       Junction4:{{junction4_data}}
+      {%if status == 1%}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Time Stamp</th>
+            <th scope="col">Car</th>
+            <th scope="col">Motor Bike</th>
+            <th scope="col">Bus</th>
+            <th scope="col">Truck</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{datetime}}</th>
+            <td> {{vehicle_segregated_count1['car']}}</td>
+            <td> {{vehicle_segregated_count1['motorbike']}}</td>
+            <td> {{vehicle_segregated_count1['bus']}}</td>
+            <td> {{vehicle_segregated_count1['truck']}}</td>
+          </tr>
+          
+        </tbody>
+      </table>
+      <br>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Time Stamp</th>
+            <th scope="col">Car</th>
+            <th scope="col">Motor Bike</th>
+            <th scope="col">Bus</th>
+            <th scope="col">Truck</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{datetime}}</th>
+            <td> {{vehicle_segregated_count2['car']}}</td>
+            <td> {{vehicle_segregated_count2['motorbike']}}</td>
+            <td> {{vehicle_segregated_count2['bus']}}</td>
+            <td> {{vehicle_segregated_count2['truck']}}</td>
+          </tr>
+          
+        </tbody>
+      </table>
+      <br>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Time Stamp</th>
+            <th scope="col">Car</th>
+            <th scope="col">Motor Bike</th>
+            <th scope="col">Bus</th>
+            <th scope="col">Truck</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{datetime}}</th>
+            <td> {{vehicle_segregated_count3['car']}}</td>
+            <td> {{vehicle_segregated_count3['motorbike']}}</td>
+            <td> {{vehicle_segregated_count3['bus']}}</td>
+            <td> {{vehicle_segregated_count3['truck']}}</td>
+          </tr>
+          
+        </tbody>
+      </table>
+      <br>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Time Stamp</th>
+            <th scope="col">Car</th>
+            <th scope="col">Motor Bike</th>
+            <th scope="col">Bus</th>
+            <th scope="col">Truck</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{datetime}}</th>
+            <td> {{vehicle_segregated_count4['car']}}</td>
+            <td> {{vehicle_segregated_count4['motorbike']}}</td>
+            <td> {{vehicle_segregated_count4['bus']}}</td>
+            <td> {{vehicle_segregated_count4['truck']}}</td>
+          </tr>
+          
+        </tbody>
+      </table>
+      <br>
+
+      {%endif%}
+
+      <br>
+      {{traffic_control_data}}
+      {% if traffic_control_data%}
+      {% if traffic_control_data[0] ==1%}
+      <table class="table">
+        <tr>
+          <td>
+            <div class="traffic-light">
+            <div class="light off"></div>
+            <div class="light off"></div>
+            <div class="light green"></div>
+            </div>
+          </td>
+          <td>
+            <div class="traffic-light">
+            <div class="light red"></div>
+            <div class="light off"></div>
+            <div class="light off"></div>
+            </div>
+          </td>
+          <td>
+            <div class="traffic-light">
+            <div class="light red"></div>
+            <div class="light off"></div>
+            <div class="light off"></div>
+            </div>
+          </td>
+          <td>
+            <div class="traffic-light">
+            <div class="light red"></div>
+            <div class="light off"></div>
+            <div class="light off"></div>
+            </div>
+          </td>
+        </tr>
+      </table>
+      {%endif%}
+
+      {% if traffic_control_data[1] ==1%}
+      <table class="table">
+        <tr>
+          <td>
+            <div class="traffic-light">
+            <div class="light red"></div>
+            <div class="light off"></div>
+            <div class="light off"></div>
+            </div>
+          </td>
+          <td>
+            <div class="traffic-light">
+            <div class="light off"></div>
+            <div class="light off"></div>
+            <div class="light green"></div>
+            </div>
+          </td>
+          <td>
+            <div class="traffic-light">
+            <div class="light red"></div>
+            <div class="light off"></div>
+            <div class="light off"></div>
+            </div>
+          </td>
+          <td>
+            <div class="traffic-light">
+            <div class="light red"></div>
+            <div class="light off"></div>
+            <div class="light off"></div>
+            </div>
+          </td>
+        </tr>
+      </table>
+      {%endif%}
+
+      {% if traffic_control_data[2] ==1 %}
+      <table class="table">
+        <tr>
+          <td>
+            <div class="traffic-light">
+            <div class="light red"></div>
+            <div class="light off"></div>
+            <div class="light off"></div>
+            </div>
+          </td>
+          <td>
+            <div class="traffic-light">
+            <div class="light red"></div>
+            <div class="light off"></div>
+            <div class="light off"></div>
+            </div>
+          </td>
+          <td>
+            <div class="traffic-light">
+            <div class="light off"></div>
+            <div class="light off"></div>
+            <div class="light green"></div>
+            </div>
+          </td>
+          <td>
+            <div class="traffic-light">
+            <div class="light red"></div>
+            <div class="light off"></div>
+            <div class="light off"></div>
+            </div>
+          </td>
+        </tr>
+      </table>
+      {%endif%}
+
+      {% if traffic_control_data[3] ==1%}
+      <table class="table">
+        <tr>
+          <td>
+            <div class="traffic-light">
+            <div class="light red"></div>
+            <div class="light off"></div>
+            <div class="light off"></div>
+            </div>
+          </td>
+          <td>
+            <div class="traffic-light">
+            <div class="light red"></div>
+            <div class="light off"></div>
+            <div class="light off"></div>
+            </div>
+          </td>
+          <td>
+            <div class="traffic-light">
+            <div class="light red"></div>
+            <div class="light off"></div>
+            <div class="light off"></div>
+            </div>
+          </td>
+          <td>
+            <div class="traffic-light">
+            <div class="light off"></div>
+            <div class="light off"></div>
+            <div class="light green"></div>
+            </div>
+          </td>
+        </tr>
+      </table>
+      {%endif%}
+      {%endif%}
      
-    </div>
-    <br>
-    <div class="container">
-        <div class="panel">
-            <!-- <div class="content-box"></div> -->
-            <div class="indicator-panel">
-                <div class="indicator red"></div>
-                <div class="indicator green"></div>
-            </div>
-        </div>
-        <div class="panel">
-            <!-- <div class="content-box"></div> -->
-            <div class="indicator-panel">
-                <div class="indicator red"></div>
-                <div class="indicator green"></div>
-            </div>
-        </div>
-        <div class="panel">
-            <!-- <div class="content-box"></div> -->
-            <div class="indicator-panel">
-                <div class="indicator red"></div>
-                <div class="indicator green"></div>
-            </div>
-        </div>
-        <div class="panel">
-            <!-- <div class="content-box"></div> -->
-            <div class="indicator-panel">
-                <div class="indicator red"></div>
-                <div class="indicator green"></div>
-            </div>
-        </div>
-    </div>
+    </div>   
     
       <br><br>
+      
+      
     </div>
   </div>
 </div>

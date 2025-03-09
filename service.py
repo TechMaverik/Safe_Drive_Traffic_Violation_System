@@ -2,6 +2,7 @@ import os
 import cv2
 from datetime import datetime
 from Engine.VisionLogic import logic
+from Engine.TrafficLogic.traffic_light_control_logic import ControlTraffic
 from mapper import Mappers
 
 
@@ -232,12 +233,19 @@ class Services:
         )
 
     def control_traffic_light(
+        self,
         junction1_vehicle_count,
         junction2_vehicle_count,
         junction3_vehicle_count,
         junction4_vehicle_count,
     ):
-        pass
+        traffic_light_data = ControlTraffic().control_traffic(
+            junction1_vehicle_count,
+            junction2_vehicle_count,
+            junction3_vehicle_count,
+            junction4_vehicle_count,
+        )
+        return traffic_light_data
 
     def get_violations(self, filter):
         rows = Mappers().get_all_violations(filter)
@@ -252,7 +260,7 @@ class Services:
         red_signal_violation = len(rows)
         rows = Mappers().get_all_violations("HEAVY_VEHICLES_VIOLATION")
         heavy_vehicle_violation = len(rows)
-        print(heavy_vehicle_violation, "----->")
+
         return (
             zebra_crossing_violation,
             no_parking_violation,
@@ -266,3 +274,6 @@ class Services:
             full_image_path = row[2]
             filename = self.file_name_extractor(full_image_path)
             return filename
+
+    def validate_violations(self, id):
+        Mappers().validate_violations(id)
