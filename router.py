@@ -90,9 +90,12 @@ def pedestrian_crossing_violation():
 
 @app.route("/admin/traffic/density", methods=["get"])
 def traffic_density():
-    zebra_crossing_violation, no_parking_violation, red_signal_violation = (
-        Services().get_violations_count()
-    )
+    (
+        zebra_crossing_violation,
+        no_parking_violation,
+        red_signal_violation,
+        heavy_vehicle_violation,
+    ) = Services().get_violations_count()
     return render_template(
         "traffic_density.html",
         menu=menus.dashboard_menus,
@@ -100,6 +103,7 @@ def traffic_density():
         zebra_crossing_violation=zebra_crossing_violation,
         no_parking_violation=no_parking_violation,
         red_signal_violation=red_signal_violation,
+        heavy_vehicle_violation=heavy_vehicle_violation,
     )
 
 
