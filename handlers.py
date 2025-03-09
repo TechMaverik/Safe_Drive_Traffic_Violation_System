@@ -29,3 +29,8 @@ class Handlers:
             image_path_3,
             image_path_4,
         )
+
+    def handle_violation_id(self):
+        if request.method == "POST":
+            id = request.form["id"]
+            return id

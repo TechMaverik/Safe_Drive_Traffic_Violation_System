@@ -30,8 +30,12 @@ class Mappers:
 
                 cursor.execute(query)
                 rows = cursor.fetchall()
-
         return rows
 
-
-# Mappers().add_violations("RED_SIGNAL_CROSSING", "image.jpg")
+    def select_violation(self, id):
+        with sqlite3.connect("traffic_violation.db") as connection:
+            cursor = connection.cursor()
+            query = "SELECT * FROM violations WHERE id = '" + id + "' "
+            cursor.execute(query)
+            rows = cursor.fetchall()
+        return rows

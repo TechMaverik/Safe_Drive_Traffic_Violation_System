@@ -248,5 +248,25 @@ def traffic_control():
     )
 
 
+@app.route("/view_violation_image", methods=["post"])
+def view_violation_image():
+    id = Handlers().handle_violation_id()
+    filename = Services().select_violation(id)
+
+    return render_template(
+        "charged_violations.html",
+        menu=menus.dashboard_menus,
+        filename=filename,
+    )
+
+
+@app.route("/redirect_approval", methods=["post"])
+def redirect_approval():
+    return render_template(
+        "validate_violations.html",
+        menu=menus.dashboard_menus,
+    )
+
+
 if __name__ == "__main__":
     app.run("localhost", 5000, debug=True)

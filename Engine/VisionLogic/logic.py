@@ -79,8 +79,6 @@ def count_vehicle(box_id, img, image_path, functionality):
         violation_tracker.no_parking(center, img, image_path)
     elif functionality == "ZEBRA_CROSSING_VEHICLE":
         violation_tracker.vehicle_zebra_crossing(center, img, image_path)
-    elif functionality == "PEDESTRIAN_VIOLATION":
-        violation_tracker.pedestrian_crossing(center, img, image_path)
     else:
         cv2.circle(img, center, 2, (0, 0, 255), -1)
 

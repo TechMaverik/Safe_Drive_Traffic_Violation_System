@@ -49,41 +49,16 @@
       </ul><br>      
     </div>
     <div class="col-sm-9">
-      <h4><small>Charged Violations</small></h4>
+      <h4><small>Validate Violations</small></h4>
       <hr>
       <br>
  
        
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Category</th>
-            <th scope="col">Image</th>
-            <th scope="col">Time Stamp</th>
-            <th scope="col">Validated</th>
-            <th scope="col">Assigned To</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for row in rows %}
-          <tr>            
-            <td>{{row[0]}}</td>
-            <td>{{row[1]}}</td>
-            <td>{{row[2]}}</td>
-            <td>{{row[3]}}</td>
-            <td>{{row[4]}}</td>
-            <td>{{row[5]}}</td>
-          </tr>
-          {%endfor%}
-          
-        </tbody>
-      </table>
-      <br>
+      
 
       
       <h4><small>Approval</small></h4>
-      <form action="/view_violation_image" method="post">
+      <form action="/" method="post">
         <div>
             <label for="name">ID</label>
         </div>
@@ -91,30 +66,12 @@
             <input type="text" class="form-control" name="id" aria-describedby="id" placeholder="id">
         </div>
          <div class="form-group">
-            <button type="submit" class="btn btn-success">View Violations</button>
+            <button type="submit" class="btn btn-success">Approve</button>
             &nbsp;
             <button type="clear" class="btn btn-danger">Clear</button>
           </div>
 
       </form>
-      {% if filename%}
-      <div class="form-group"></div>
-        <img src="{{ url_for('static', filename=filename) }}" alt="No Violations Found" />
-      </div> 
-      <br>
-
-      <div>
-        <br>
-        <br>
-        <form action="/redirect_approval" method="post">
-          <div class="form-group">
-            <button type="submit" class="btn btn-success">Validate Violations</button>            
-          </div>
-
-        </form>
-      </div>
-      {% endif %}
-      
 
       
     </div>

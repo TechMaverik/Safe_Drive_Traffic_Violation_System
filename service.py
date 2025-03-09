@@ -259,3 +259,10 @@ class Services:
             red_signal_violation,
             heavy_vehicle_violation,
         )
+
+    def select_violation(self, id):
+        rows = Mappers().select_violation(id)
+        for row in rows:
+            full_image_path = row[2]
+            filename = self.file_name_extractor(full_image_path)
+            return filename
