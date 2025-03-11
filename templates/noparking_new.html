@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeDrive AI - No Parking Violation</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .sidebar {
+        background-color: #212529;
+        color: white;
+        min-height: 100vh;
+        padding-top: 20px;
+    }
+    .sidebar-header {
+        padding: 0 15px 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        margin-bottom: 20px;
+    }
+    .sidebar-link {
+        color: rgba(255,255,255,0.75);
+        display: block;
+        padding: 12px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin: 5px 10px;
+        transition: all 0.3s;
+    }
+    .sidebar-link:hover, .sidebar-link.active {
+        background-color: #0d6efd;
+        color: white;
+    }
+    .sidebar-link i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+    }
+    .page-title {
+        font-weight: 600;
+        border-bottom: 1px solid #dee2e6;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
+    .content {
+        padding: 25px;
+    }
+    .camera-feed {
+        position: relative;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .camera-feed img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    .camera-overlay {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background-color: rgba(0,0,0,0.6);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+    .camera-status {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background-color: rgba(40,167,69,0.8);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+    }
+    .camera-status.recording:before {
+        content: "";
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background-color: #dc3545;
+        border-radius: 50%;
+        margin-right: 5px;
+        animation: blink 1.5s ease-in-out infinite;
+    }
+    @keyframes blink {
+        0% { opacity: 1; }
+        50% { opacity: 0.4; }
+        100% { opacity: 1; }
+    }
+    .camera-controls {
+        background-color: rgba(0,0,0,0.7);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 10px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .camera-controls .btn {
+        color: white;
+        margin-right: 5px;
+    }
+    .data-extraction-controls {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+    .analytics-panel {
+        background: white;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .detection-tag {
+        position: absolute;
+        background-color: rgba(220, 53, 69, 0.8);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+    .camera-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    .camera-thumbnail {
+        cursor: pointer;
+        transition: transform 0.2s;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    .camera-thumbnail:hover {
+        transform: scale(1.02);
+    }
+    .info-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0,0,0,0.8));
+        color: white;
+        padding: 30px 15px 10px;
+        font-size: 14px;
+    }
+</style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="sidebar-header">
+                    <h3><i class="fas fa-car-crash me-2"></i>SafeDrive AI</h3>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fas fa-bell"></i> Notifications
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="sidebar-link ">
+                            <i class="fas fa-video"></i> Live Traffic View
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="sidebar-link ">
+                            <i class="fas fa-traffic-light"></i> Red Signal Crossing
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="sidebar-link ">
+                            <i class="fas fa-road"></i> Vehicle in Zebra Crossing
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fas fa-truck"></i> Heavy Vehicles in School Time
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="sidebar-link active">
+                            <i class="fas fa-parking"></i> No Parking Violation
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fas fa-car-side"></i> Traffic Density
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fas fa-traffic-light"></i> Traffic Control
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fas fa-receipt"></i> Violations Charged
+                        </a>
+                    </li>
+                </ul>
+            </div>
+      <!-- Main Content -->
+      <div class="col content">
+        <h4 class="page-title">No Parking Violation</h4>
+        
+        <form action="/no_parking_violation_processing" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label>Camera</label>
+          <input type="file" class="form-control" name="image" placeholder="Select the Image Path">
+        </div>       
+        <button type="Submit" class="btn btn-primary">Upload and Process Image</button>
+      </form>
+        
+      <br>
+        {% if image_file%}
+        <img src="{{ url_for('static', filename=image_file) }}" />
+        {% endif %}
+       
+     
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

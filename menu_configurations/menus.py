@@ -16,20 +16,3 @@ violations = [
     "Heavy Vehicles in School Time",
     "No Parking Violation",
 ]
-
-gender = ["-", "Male", "Female"]
-yes_no = ["-", "Yes", "No"]
-months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-]

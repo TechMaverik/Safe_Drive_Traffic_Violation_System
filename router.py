@@ -17,7 +17,7 @@ def welcome():
         heavy_vehicle_violation,
     ) = Services().get_violations_count()
     return render_template(
-        "dashboard.html",
+        "index.html",
         menu=menus.dashboard_menus,
         violations_list=menus.violations,
         zebra_crossing_violation=zebra_crossing_violation,
@@ -32,7 +32,7 @@ def welcome():
 def traffic_control_system():
     info = "Page under construction"
     return render_template(
-        "traffic_control.html",
+        "traffic_control_new.html",
         menu=menus.dashboard_menus,
     )
 
@@ -41,7 +41,7 @@ def traffic_control_system():
 def live_camera_view():
     info = "Page under construction"
     return render_template(
-        "live_camera.html",
+        "live_traffic_view.html",
         menu=menus.dashboard_menus,
     )
 
@@ -51,7 +51,7 @@ def red_signal_crossing():
     folder_location = "static/violations/red_signal"
 
     return render_template(
-        "redsignal_crossing.html",
+        "redsignal_crossing_new.html",
         menu=menus.dashboard_menus,
     )
 
@@ -59,7 +59,7 @@ def red_signal_crossing():
 @app.route("/admin/violation/vehicles/heavy/schooltime", methods=["get"])
 def truck_in_schooltime():
     return render_template(
-        "trucks_schooltime.html",
+        "trucks_schooltime_new.html",
         menu=menus.dashboard_menus,
     )
 
@@ -67,7 +67,7 @@ def truck_in_schooltime():
 @app.route("/admin/violation/vehicles/zebracrossing", methods=["get"])
 def vehicles_in_zebra_cross():
     return render_template(
-        "zebra_crossing.html",
+        "zebra_crossing_new.html",
         menu=menus.dashboard_menus,
     )
 
@@ -75,7 +75,7 @@ def vehicles_in_zebra_cross():
 @app.route("/admin/violation/vehicles/noparking", methods=["get"])
 def no_parking_violation():
     return render_template(
-        "noparking.html",
+        "noparking_new.html",
         menu=menus.dashboard_menus,
     )
 
@@ -97,7 +97,7 @@ def traffic_density():
         heavy_vehicle_violation,
     ) = Services().get_violations_count()
     return render_template(
-        "traffic_density.html",
+        "traffic_density_new.html",
         menu=menus.dashboard_menus,
         status=False,
         zebra_crossing_violation=zebra_crossing_violation,
@@ -112,7 +112,7 @@ def charged_violation():
     rows = Services().get_violations(None)
 
     return render_template(
-        "charged_violations.html",
+        "charged_violations_new.html",
         menu=menus.dashboard_menus,
         rows=rows,
     )
@@ -132,7 +132,7 @@ def extract_images_camera1():
 def extract_images_camera2():
     status = Services().video_to_images_traffic2()
     return render_template(
-        "live_camera.html",
+        "live_traffic_view.html",
         menu=menus.dashboard_menus,
         status=status,
     )
@@ -143,7 +143,7 @@ def red_signal_violation_processing():
     image_path, filename = Handlers().handle_image_uploads()
     status = Services().track_violation(image_path, "RED_SIGNAL_CROSSING")
     return render_template(
-        "redsignal_crossing.html",
+        "redsignal_crossing_new.html",
         menu=menus.dashboard_menus,
         image_file=filename,
     )
@@ -155,7 +155,7 @@ def vehicles_in_zebra_crossing_violation_processing():
 
     status = Services().track_violation(image_path, "ZEBRA_CROSSING_VEHICLE")
     return render_template(
-        "zebra_crossing.html",
+        "zebra_crossing_new.html",
         menu=menus.dashboard_menus,
         image_file=filename,
     )
@@ -208,7 +208,7 @@ def traffic_density_process():
     except:
         vehicle_segregated_count["bus"] = 0
     return render_template(
-        "traffic_density.html",
+        "traffic_density_new.html",
         menu=menus.dashboard_menus,
         image_file=filename,
         vehicle_segregated_count=vehicle_segregated_count,
@@ -321,7 +321,7 @@ def traffic_control():
         vehicle_segregated_count4["bus"] = 0
 
     return render_template(
-        "traffic_control.html",
+        "traffic_control_new.html",
         menu=menus.dashboard_menus,
         traffic_control_data=traffic_control_data,
         vehicle_segregated_count1=vehicle_segregated_count1,
@@ -339,7 +339,7 @@ def view_violation_image():
     filename = Services().select_violation(id)
 
     return render_template(
-        "charged_violations.html",
+        "charged_violations_new.html",
         menu=menus.dashboard_menus,
         filename=filename,
     )
@@ -348,7 +348,7 @@ def view_violation_image():
 @app.route("/redirect_approval", methods=["post"])
 def redirect_approval():
     return render_template(
-        "validate_violations.html",
+        "validate_violations_new.html",
         menu=menus.dashboard_menus,
     )
 
@@ -358,7 +358,7 @@ def validate_violations():
     id = Handlers().handle_violation_id()
     Services().validate_violations(id)
     return render_template(
-        "charged_violations.html",
+        "charged_violations_new.html",
         menu=menus.dashboard_menus,
     )
 

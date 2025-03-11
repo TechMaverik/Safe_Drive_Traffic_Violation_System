@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeDrive AI - Traffic Monitoring System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .sidebar {
+            background-color: #212529;
+            color: white;
+            min-height: 100vh;
+            padding-top: 20px;
+        }
+        .sidebar-header {
+            padding: 0 15px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .sidebar-link {
+            color: rgba(255,255,255,0.75);
+            display: block;
+            padding: 12px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px 10px;
+            transition: all 0.3s;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .sidebar-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        .page-title {
+            font-weight: 600;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .content {
+            padding: 25px;
+        }
+        .violation-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+        .violation-card:hover {
+            transform: translateY(-5px);
+        }
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .status-active {
+            background-color: #28a745;
+        }
+        .status-warning {
+            background-color: #ffc107;
+        }
+        .status-danger {
+            background-color: #dc3545;
+        }
+        .table-violations th {
+            font-weight: 600;
+            color: #495057;
+        }
+        .priority-high {
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+        .priority-medium {
+            background-color: rgba(255, 193, 7, 0.1);
+        }
+        .priority-low {
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+        .dashboard-stats {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="sidebar-header">
+                    <h3><i class="fas fa-car-crash me-2"></i>SafeDrive AI</h3>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/" class="sidebar-link active">
+                            <i class="fas fa-bell"></i> Notifications
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/live" class="sidebar-link">
+                            <i class="fas fa-video"></i> Live Traffic View
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/violation/vehicles/redsignalcrossing" class="sidebar-link">
+                            <i class="fas fa-traffic-light"></i> Red Signal Crossing
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/violation/vehicles/zebracrossing" class="sidebar-link">
+                            <i class="fas fa-road"></i> Vehicle in Zebra Crossing
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/violation/vehicles/heavy/schooltime" class="sidebar-link">
+                            <i class="fas fa-truck"></i> Heavy Vehicles in School Time
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/violation/vehicles/noparking" class="sidebar-link">
+                            <i class="fas fa-parking"></i> No Parking Violation
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/traffic/density" class="sidebar-link">
+                            <i class="fas fa-car-side"></i> Traffic Density
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/traffic/control" class="sidebar-link">
+                            <i class="fas fa-traffic-light"></i> Traffic Control
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/violation/charged" class="sidebar-link">
+                            <i class="fas fa-receipt"></i> Violations Charged
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 content">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+                    <h1 class="page-title">Notifications Dashboard</h1>
+                </div>
+
+                <!-- Summary Stats -->
+                <div class="row mb-4">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="dashboard-stats">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5 class="stat-value text-primary">0</h5>
+                                    <div class="stat-label">Total Violations</div>
+                                </div>
+                                <div class="align-self-center text-primary">
+                                    <i class="fas fa-exclamation-triangle fa-3x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="dashboard-stats">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5 class="stat-value text-danger">{{red_signal_violation}}</h5>
+                                    <div class="stat-label">Red Signal Violations</div>
+                                </div>
+                                <div class="align-self-center text-danger">
+                                    <i class="fas fa-traffic-light fa-3x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="dashboard-stats">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5 class="stat-value text-warning">{{zebra_crossing_violation}}</h5>
+                                    <div class="stat-label">Zebra Crossing Violations</div>
+                                </div>
+                                <div class="align-self-center text-warning">
+                                    <i class="fas fa-road fa-3x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Violation Table -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">Traffic Violations</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-violations mb-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Traffic Violation</th>
+                                        <th scope="col">Count</th>
+                                        <th scope="col">Last Updated</th>                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="priority-high">
+                                        <td>1</td>
+                                        <td>Red Signal Crossing Violation</td>
+                                        <td>{{red_signal_violation}}</td>
+                                        <td>{{datetime}}</td>
+                                    </tr>
+                                    <tr class="priority-medium">
+                                        <td>2</td>
+                                        <td>Vehicles in Zebra Crossing Violation</td>
+                                        <td>{{zebra_crossing_violation}}</td>
+                                        <td>{{datetime}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Heavy Vehicles in School Time Violation</td>
+                                        <td>{{heavy_vehicle_violation}}</td>
+                                        <td>{{datetime}}</td>
+                                    </tr>
+                                    <tr class="priority-medium">
+                                        <td>4</td>
+                                        <td>No Parking Violation</td>
+                                        <td>{{no_parking_violation}}</td>
+                                        <td>{{datetime}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
