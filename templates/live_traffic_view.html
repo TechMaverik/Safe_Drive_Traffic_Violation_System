@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeDrive AI - Live Traffic View</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .sidebar {
+            background-color: #212529;
+            color: white;
+            min-height: 100vh;
+            padding-top: 20px;
+        }
+        .sidebar-header {
+            padding: 0 15px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .sidebar-link {
+            color: rgba(255,255,255,0.75);
+            display: block;
+            padding: 12px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px 10px;
+            transition: all 0.3s;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .sidebar-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        .page-title {
+            font-weight: 600;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .content {
+            padding: 25px;
+        }
+        .camera-feed {
+            position: relative;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .camera-feed img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .camera-overlay {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .camera-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(40,167,69,0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .camera-status.recording:before {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #dc3545;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+        .camera-controls {
+            background-color: rgba(0,0,0,0.7);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .camera-controls .btn {
+            color: white;
+            margin-right: 5px;
+        }
+        .data-extraction-controls {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .analytics-panel {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .detection-tag {
+            position: absolute;
+            background-color: rgba(220, 53, 69, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .camera-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .camera-thumbnail {
+            cursor: pointer;
+            transition: transform 0.2s;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .camera-thumbnail:hover {
+            transform: scale(1.02);
+        }
+        .info-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 30px 15px 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="sidebar-header">
+                    <h3><i class="fas fa-car-crash me-2"></i>SafeDrive AI</h3>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="/" class="sidebar-link">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/" class="sidebar-link">
+                            <i class="fas fa-bell"></i> Notifications
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/live" class="sidebar-link active">
+                            <i class="fas fa-video"></i> Live Traffic View
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/violation/vehicles/redsignalcrossing" class="sidebar-link">
+                            <i class="fas fa-traffic-light"></i> Red Signal Crossing
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/violation/vehicles/zebracrossing" class="sidebar-link">
+                            <i class="fas fa-road"></i> Vehicle in Zebra Crossing
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/violation/vehicles/heavy/schooltime" class="sidebar-link">
+                            <i class="fas fa-truck"></i> Heavy Vehicles in School Time
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/violation/vehicles/noparking" class="sidebar-link">
+                            <i class="fas fa-parking"></i> No Parking Violation
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/traffic/density" class="sidebar-link">
+                            <i class="fas fa-car-side"></i> Traffic Density
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/traffic/control" class="sidebar-link">
+                            <i class="fas fa-traffic-light"></i> Traffic Control
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/violation/charged" class="sidebar-link">
+                            <i class="fas fa-receipt"></i> Violations Charged
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 content">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+                    <h1 class="page-title">Live Camera Traffic View</h1>
+                    
+                </div>
+
+                <!-- Camera Selection Tabs -->
+                <ul class="nav nav-tabs mb-4" id="cameraTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="active-tab" data-bs-toggle="tab" data-bs-target="#active" type="button" role="tab">
+                            Active Monitoring <span class="badge bg-primary ms-2">2</span>
+                        </button>
+                    </li>
+                    
+                </ul>
+                
+                <!-- Camera Feeds -->
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="camera-feed">
+                            <div class="camera-overlay">
+                                <i class="fas fa-video me-2"></i> Camera 1 - Junction A
+                            </div>
+                            <div class="camera-status recording">
+                                LIVE
+                            </div>
+                            <!-- Placeholder for the camera feed image -->
+                                <video  autoplay  muted height="500" width="500" >
+                                    <source src={{ url_for('static', filename="Traffic.mp4") }} type="video/mp4" >
+                                </video>
+                                
+                            <!-- Zebra crossing violation detection markers -->
+                            <div class="detection-tag" style="bottom: 150px; left: 180px;">
+                                <!-- <i class="fas fa-exclamation-triangle me-1"></i> Active -->
+                            </div>
+                            
+                            <div class="camera-controls">
+                                <div>
+                                    <button class="btn btn-sm btn-link"><i class="fas fa-pause"></i></button>
+                                    <button class="btn btn-sm btn-link"><i class="fas fa-expand"></i></button>
+                                    <button class="btn btn-sm btn-link"><i class="fas fa-camera"></i></button>
+                                </div>
+                                <div>
+                                    <span class="text-light">FPS: 24 | Detecting: Violations, Vehicles</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="data-extraction-controls">
+                            <form action="/extract_images1" method="get">
+                                <button type="submit" class="btn btn-success">Extract Camera1 Image Data</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6 mb-4">
+                        <div class="camera-feed">
+                            <div class="camera-overlay">
+                                <i class="fas fa-video me-2"></i> Camera 2 - Highway B
+                            </div>
+                            <div class="camera-status recording">
+                                LIVE
+                            </div>
+                            <!-- Placeholder for the camera feed image -->
+                            <video  autoplay  muted height="500" width="500" >
+                                    <source src={{ url_for('static', filename="Traffic2.mp4") }} type="video/mp4" >
+                                </video>
+                            
+                            <div class="camera-controls">
+                                <div>
+                                    <button class="btn btn-sm btn-link"><i class="fas fa-pause"></i></button>
+                                    <button class="btn btn-sm btn-link"><i class="fas fa-expand"></i></button>
+                                    <button class="btn btn-sm btn-link"><i class="fas fa-camera"></i></button>
+                                </div>
+                                <div>
+                                    <span class="text-light">FPS: 24 | Detecting: Vehicles, Violations</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="data-extraction-controls">
+                            <form action="/extract_images2" method="get">
+                                <button type="submit" class="btn btn-success">Extract Camera2 Image Data</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
