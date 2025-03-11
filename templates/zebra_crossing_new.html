@@ -172,12 +172,12 @@
                 </div>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a href="#" class="sidebar-link">
+                        <a href="/" class="sidebar-link">
                             <i class="fas fa-tachometer-alt"></i> Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/" class="sidebar-link active">
+                        <a href="/" class="sidebar-link ">
                             <i class="fas fa-bell"></i> Notifications
                         </a>
                     </li>
@@ -192,7 +192,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/admin/violation/vehicles/zebracrossing" class="sidebar-link">
+                        <a href="/admin/violation/vehicles/zebracrossing" class="sidebar-link active">
                             <i class="fas fa-road"></i> Vehicle in Zebra Crossing
                         </a>
                     </li>
@@ -226,13 +226,14 @@
 
       <!-- Main Content -->
       <div class="col content">
-        <h4 class="page-title">Vehicle in zebra Crossing Violation</h4>
+        <h4 class="page-title">Vehicle in Zebra Crossing Violation</h4>
         
         <form action="/vehicles_in_zebra_crossing_violation_processing" method="post" enctype="multipart/form-data">
         <div class="form-group">
-          <label>Camera</label>
+         
           <input type="file" class="form-control" name="image" placeholder="Select the Image Path">
-        </div>       
+        </div>      
+        <br> 
         <button type="Submit" class="btn btn-primary">Upload and Process Image</button>
       </form>
         

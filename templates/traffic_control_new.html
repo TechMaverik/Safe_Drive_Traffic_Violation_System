@@ -208,12 +208,12 @@
                 </div>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a href="#" class="sidebar-link">
+                        <a href="/" class="sidebar-link">
                             <i class="fas fa-tachometer-alt"></i> Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/" class="sidebar-link active">
+                        <a href="/" class="sidebar-link ">
                             <i class="fas fa-bell"></i> Notifications
                         </a>
                     </li>
@@ -248,7 +248,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/admin/traffic/control" class="sidebar-link">
+                        <a href="/admin/traffic/control" class="sidebar-link active">
                             <i class="fas fa-traffic-light"></i> Traffic Control
                         </a>
                     </li>
@@ -267,20 +267,28 @@
         <form action="/traffic_control" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <label>Camera 1</label>
+          <br>
           <input type="file" class="form-control" name="junction1" placeholder="Select the Image Path">
         </div>   
+        <br>
         <div class="form-group">
           <label>Camera 2</label>
+          <br>
           <input type="file" class="form-control" name="junction2" placeholder="Select the Image Path">
-        </div>  
+        </div> 
+        <br> 
         <div class="form-group">
           <label>Camera 3</label>
+          <br>
           <input type="file" class="form-control" name="junction3" placeholder="Select the Image Path">
         </div>
+        <br>
         <div class="form-group">
           <label>Camera 4</label>
+          <br>
           <input type="file" class="form-control" name="junction4" placeholder="Select the Image Path">
-        </div>           
+        </div>      
+        <br>     
         <button type="Submit" class="btn btn-primary">Upload and Control Traffic</button>
       </form>
       <br>

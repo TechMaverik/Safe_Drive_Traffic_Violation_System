@@ -172,66 +172,68 @@
                 </div>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a href="#" class="sidebar-link">
+                        <a href="/" class="sidebar-link">
                             <i class="fas fa-tachometer-alt"></i> Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="sidebar-link">
+                        <a href="/" class="sidebar-link ">
                             <i class="fas fa-bell"></i> Notifications
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="sidebar-link ">
+                        <a href="/admin/live" class="sidebar-link">
                             <i class="fas fa-video"></i> Live Traffic View
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="sidebar-link ">
+                        <a href="/admin/violation/vehicles/redsignalcrossing" class="sidebar-link">
                             <i class="fas fa-traffic-light"></i> Red Signal Crossing
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="sidebar-link ">
+                        <a href="/admin/violation/vehicles/zebracrossing" class="sidebar-link">
                             <i class="fas fa-road"></i> Vehicle in Zebra Crossing
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="sidebar-link">
+                        <a href="/admin/violation/vehicles/heavy/schooltime" class="sidebar-link">
                             <i class="fas fa-truck"></i> Heavy Vehicles in School Time
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="sidebar-link active">
+                        <a href="/admin/violation/vehicles/noparking" class="sidebar-link active">
                             <i class="fas fa-parking"></i> No Parking Violation
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="sidebar-link">
+                        <a href="/admin/traffic/density" class="sidebar-link">
                             <i class="fas fa-car-side"></i> Traffic Density
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="sidebar-link">
+                        <a href="/admin/traffic/control" class="sidebar-link">
                             <i class="fas fa-traffic-light"></i> Traffic Control
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="sidebar-link">
+                        <a href="/admin/violation/charged" class="sidebar-link">
                             <i class="fas fa-receipt"></i> Violations Charged
                         </a>
                     </li>
                 </ul>
             </div>
+            
       <!-- Main Content -->
       <div class="col content">
         <h4 class="page-title">No Parking Violation</h4>
         
         <form action="/no_parking_violation_processing" method="post" enctype="multipart/form-data">
         <div class="form-group">
-          <label>Camera</label>
+   
           <input type="file" class="form-control" name="image" placeholder="Select the Image Path">
-        </div>       
+        </div>  
+        <br>     
         <button type="Submit" class="btn btn-primary">Upload and Process Image</button>
       </form>
         
