@@ -16,6 +16,12 @@ def welcome():
         red_signal_violation,
         heavy_vehicle_violation,
     ) = Services().get_violations_count()
+    total = (
+        zebra_crossing_violation
+        + no_parking_violation
+        + red_signal_violation
+        + heavy_vehicle_violation
+    )
     return render_template(
         "index.html",
         menu=menus.dashboard_menus,
@@ -25,6 +31,7 @@ def welcome():
         red_signal_violation=red_signal_violation,
         heavy_vehicle_violation=heavy_vehicle_violation,
         datetime=datetime.datetime.now(),
+        total_violations=total,
     )
 
 
@@ -122,7 +129,7 @@ def charged_violation():
 def extract_images_camera1():
     status = Services().video_to_images_traffic1()
     return render_template(
-        "live_camera.html",
+        "live_traffic_view.html",
         menu=menus.dashboard_menus,
         status=status,
     )
@@ -167,7 +174,7 @@ def no_parking_processing():
 
     status = Services().track_violation(image_path, "NO_PARKING")
     return render_template(
-        "noparking.html",
+        "noparking_new.html",
         menu=menus.dashboard_menus,
         image_file=filename,
     )
@@ -181,7 +188,7 @@ def heavy_vehicles_violation_processing():
         image_path, "HEAVY_VEHICLES_VIOLATION"
     )
     return render_template(
-        "trucks_schooltime.html",
+        "trucks_schooltime_new.html",
         menu=menus.dashboard_menus,
         image_file=filename,
     )
