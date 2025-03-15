@@ -1,5 +1,6 @@
 import os
 from flask import request
+from service import Services
 
 
 class Handlers:
@@ -34,3 +35,10 @@ class Handlers:
         if request.method == "POST":
             id = request.form["id"]
             return id
+
+    def handle_users(self):
+        if request.method == "POST":
+            username = request.form["username"]
+            current_password = request.form["password"]
+            is_valid_user = Services().validate_user(username, current_password)
+            return is_valid_user

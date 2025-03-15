@@ -277,3 +277,13 @@ class Services:
 
     def validate_violations(self, id):
         Mappers().validate_violations(id)
+
+    def validate_user(self, username, current_password):
+        rows = Mappers().validate_user(username)
+        for row in rows:
+            if current_password == row[0]:
+                print("Match")
+                return True
+            else:
+                print("No Match")
+                return False

@@ -49,3 +49,11 @@ class Mappers:
             values = ("Yes", "MVD", id)
             cursor.execute(update_query, values)
             connection.commit()
+
+    def validate_user(self, username):
+        with sqlite3.connect("traffic_violation.db") as connection:
+            cursor = connection.cursor()
+            query = "SELECT password FROM users WHERE username = '" + username + "' "
+            cursor.execute(query)
+            rows = cursor.fetchall()
+        return rows

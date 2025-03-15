@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from menu_configurations import menus
 from handlers import Handlers
 from service import Services
@@ -6,10 +6,37 @@ import datetime
 
 
 app = Flask(__name__)
+app.secret_key = "safe_ai"
 
 
-@app.route("/", methods=["get"])
+@app.after_request
+def add_header(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
+
+@app.route("/", endpoint="login", methods=["get"])
+def login():
+    session.clear()
+    return render_template("login.html")
+
+
+@app.route("/user", methods=["post"])
+def validate_user():
+    is_user_valid = Handlers().handle_users()
+    if is_user_valid is True:
+        session["user"] = request.form["username"]
+        return redirect(url_for("dashboard"))
+    else:
+        return redirect(url_for("login"))
+
+
+@app.route("/dashboard", endpoint="dashboard", methods=["get"])
 def welcome():
+    if "user" not in session:
+        return redirect(url_for("login"))
     (
         zebra_crossing_violation,
         no_parking_violation,
@@ -37,6 +64,8 @@ def welcome():
 
 @app.route("/admin/traffic/control", methods=["get"])
 def traffic_control_system():
+    if "user" not in session:
+        return redirect(url_for("login"))
     info = "Page under construction"
     return render_template(
         "traffic_control_new.html",
@@ -46,6 +75,8 @@ def traffic_control_system():
 
 @app.route("/admin/live", methods=["get"])
 def live_camera_view():
+    if "user" not in session:
+        return redirect(url_for("login"))
     info = "Page under construction"
     return render_template(
         "live_traffic_view.html",
@@ -55,6 +86,8 @@ def live_camera_view():
 
 @app.route("/admin/violation/vehicles/redsignalcrossing", methods=["get"])
 def red_signal_crossing():
+    if "user" not in session:
+        return redirect(url_for("login"))
     folder_location = "static/violations/red_signal"
 
     return render_template(
@@ -65,6 +98,8 @@ def red_signal_crossing():
 
 @app.route("/admin/violation/vehicles/heavy/schooltime", methods=["get"])
 def truck_in_schooltime():
+    if "user" not in session:
+        return redirect(url_for("login"))
     return render_template(
         "trucks_schooltime_new.html",
         menu=menus.dashboard_menus,
@@ -73,6 +108,8 @@ def truck_in_schooltime():
 
 @app.route("/admin/violation/vehicles/zebracrossing", methods=["get"])
 def vehicles_in_zebra_cross():
+    if "user" not in session:
+        return redirect(url_for("login"))
     return render_template(
         "zebra_crossing_new.html",
         menu=menus.dashboard_menus,
@@ -81,22 +118,18 @@ def vehicles_in_zebra_cross():
 
 @app.route("/admin/violation/vehicles/noparking", methods=["get"])
 def no_parking_violation():
+    if "user" not in session:
+        return redirect(url_for("login"))
     return render_template(
         "noparking_new.html",
         menu=menus.dashboard_menus,
     )
 
 
-@app.route("/admin/violation/pedestrian/crossing", methods=["get"])
-def pedestrian_crossing_violation():
-    return render_template(
-        "pedestrian_crossing.html",
-        menu=menus.dashboard_menus,
-    )
-
-
 @app.route("/admin/traffic/density", methods=["get"])
 def traffic_density():
+    if "user" not in session:
+        return redirect(url_for("login"))
     (
         zebra_crossing_violation,
         no_parking_violation,
@@ -116,6 +149,8 @@ def traffic_density():
 
 @app.route("/admin/violation/charged", methods=["get"])
 def charged_violation():
+    if "user" not in session:
+        return redirect(url_for("login"))
     rows = Services().get_violations(None)
 
     return render_template(
